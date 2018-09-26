@@ -125,6 +125,12 @@
         .sp_left_recommend {
             display:none;
         }
+        .sp-slid ul {
+            position:absolute;
+        }
+        .disabled {
+            pointer-events:none;
+        }
     </style>
 </head>
 <body>
@@ -163,7 +169,9 @@
                         <ul></ul>
                         <div class="hide-footer">
                             共计<span>￥<strong>0</strong></span>
-                            <a href="<?php echo $this->help("url", "cart1"); ?>" target="_blank">去结算</a>
+                            <form action="/trade/confirm" method="post" id="J_GoConfirmForm">
+                                <a href="javascript:;" id="J_GoConfirmBtn">去结算</a>
+                            </form>
                         </div>
                     </section>
                 </div>
@@ -307,15 +315,16 @@
     </div>
 
     <div class="wrapper">
-        <div class="sp-left sp_left_discount">
+        <div class="sp-left sp_left_special">
             <img src="/statics/<?= $version; ?>/img/home_banner_discount@2x.png"/>
         </div>
-        <div class="sp-left sp_left_recommend" style="display:none;">
+        <div class="sp-left sp_left_recommend">
             <img src="/statics/<?= $version; ?>/img/home_banner_new@2x.png"/>
         </div>
-<!--        限时特价start-->
-        <div class="sp-slid">
-            <ul>
+
+        <div class="sp-slid" id="sp_special">
+            <!-- 限时特价start-->
+            <ul class="sp_slid_special">
                 <?php foreach ($speciallist as $v) : ?>
                     <?php $sell_price = $this->help("getCustomerSellPrice", $v['product_list'], $customer_type); ?>
                 <li class="item-box">
@@ -346,11 +355,50 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-
-            <a href=""><div class="btn fl iconfont"><i>&#xe600;</i></div></a>
-            <a href=""><div class="btn fr iconfont"><i>&#xe600;</i></div></a>
+            <!--限时特价end-->
+            <a href="javascript:;"><div class="btn fl iconfont" id="left"><i>&#xe600;</i></div></a>
+            <a href="javascript:;"><div class="btn fr iconfont" id="right"><i>&#xe600;</i></div></a>
         </div>
-        <!--限时特价end-->
+
+        <div class="sp-slid" id="sp_recommend">
+            <!--  新品推荐start-->
+            <ul class="sp_slid_recommend">
+                <?php foreach ($recommend_list as $v) : ?>
+                    <?php $sell_price = $this->help("getCustomerSellPrice", $v['product_list'], $customer_type); ?>
+                    <li class="item-box">
+                        <a  href="javascript:;" class="J_AddCollectBtn item-bg" id="<?php echo $v['product_list']["id"]; ?>" data-id="<?php echo $v['product_list']["id"]; ?>"> </a>
+                        <div class="item-img">
+                            <a href="/product/detail?id=<?php echo $v['product_list']["id"]; ?>" target="_blank">
+                                <img src="http://i8.yunmayi.com<?php echo $v['product_list']["pic_url"] ?>XXXXX!!!!!_300x300.jpg"/>
+                            </a>
+                        </div>
+                        <div class="item-title">
+                            <a href="/product/detail?id=<?php echo $v['product_list']["id"]; ?>" target="_blank"><?php echo $v['product_list']["title"] ?></a>
+                        </div>
+                        <div class="item-price">
+                            <!--                        <i>￥--><?php //echo $this->help("priceDecode", $sell_price); ?><!--/--><?php //echo $v['product_list']["unit"] ?>
+                            <i>￥</i><strong><?php echo $this->help("priceDecode", $sell_price); ?></strong>/<?= $item["unit"] ?>
+                            <span>规格:<?php echo $v['product_list']["spec"]; ?></span>
+                        </div>
+                        <div class="item-action item_quantity">
+                            <a href="javascript:;" class="J_Decrement">-</a>
+                            <input type="text" value="<?php echo $v['product_list']["min_sold_num"]; ?>" data-min="<?php echo $v['product_list']["min_sold_num"]; ?>" data-max="<?php echo max($v['product_list']["stock_info"]["stock"], $v['product_list']["stock_info"]["warehouse_stock"]) ?>" class="J_QuantityInput"/>
+                            <a href="javascript:;" class="J_Increment">+</a>
+                            <?php if($v['product_list']["stock_info"]["stock"] < $v['product_list']["min_sold_num"] && $v['product_list']["stock_info"]["warehouse_stock"] < $v['product_list']["min_sold_num"]):?>
+                                <span class="J_Nostock" data-id="<?php echo $v['product_list']["id"]; ?>">售罄</span>
+                            <?php else:?>
+                                <a href="#" class="J_AddCartBtn add_cart_btn" data-id="<?php echo $v['product_list']["id"]; ?>" data-start="<?php echo $v['product_list']["limit_start_time"];?>"  data-end="<?php echo $v['product_list']["limit_end_time"];?>"  data-num="<?php echo $v['product_list']["limit_buy_num"];?>">进货</a>
+                            <?php endif;?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <!--新品推荐end-->
+
+            <a href="javascript:;"><div class="btn fl iconfont" id="left"><i>&#xe600;</i></div></a>
+            <a href="javascript:;"><div class="btn fr iconfont" id="right"><i>&#xe600;</i></div></a>
+        </div>
+
         <!-- 爆款预售start -->
         <div class="sp-right">
             <ul class="r-img">
@@ -445,8 +493,8 @@
         <?php endforeach;?>
     </div>
     <div class="explain clearfix" id="explain"></div>
+    <div id="msg">已成功加入购物车！</div>
 </div>
-
 <div id="line">
     <div class="wrapper">
         <div class="line-img-box">
@@ -543,6 +591,22 @@
             "type": "get",
             "dataType": "json",
             "success": function(res){
+                cartData =res;
+                $("#J_GoConfirmBtn").on("click", function(){
+                    var minimumAmount = cartData.agent.minSellPrice;
+                    var originTotal = cartData.total.origin;
+                    for (var key in cartData.groups) {
+                        if (cartData.groups[key].total < minimumAmount) {
+                            /*build("red","订单金额不足"+(minimumAmount / 100).toFixed(2)+"元","allOrder",);*/
+                            build("red","订单金额不足" + (minimumAmount / 100).toFixed(2)  + "元","pressaleError");
+                            return false;
+                        }
+                    }
+
+                    $("#J_GoConfirmForm").submit();
+                    return false;
+                })
+
                 $.get("/cart/getShopCartNumber", function(data){
                     $(".cart-span").html(data);
                     if(data>0) {
@@ -637,7 +701,7 @@
             _this.val(quantity);
         });
         // 加入购物车
-        $(".J_AddCartBtn").on("click", function addCart(event){
+        $(".J_AddCartBtn").on("click", function(event){
             $('.add_cart_btn').removeClass("J_AddCartBtn");
             var _this = $(this);
             var _input = _this.siblings("input.J_QuantityInput");
@@ -786,14 +850,17 @@
                                                 top:event.clientY,
                                             },
                                             end: {
-                                                left:   address1[0].offsetLeft ,
-                                                top:  address1[0].offsetTop ,
+                                                // left:   address1[0].offsetLeft ,
+                                                // top:  address1[0].offsetTop ,
+                                                left:1010,
+                                                top:0,
                                                 width: 0 ,
                                                 height: 0
                                             },
                                             onEnd: function () {
                                                 $("#msg").show().animate({width:'250px'},200).fadeOut(1000);
                                                 this.destory();
+                                                build("green","加购成功！",productId);
                                             }
                                         })
                                     }else{
@@ -803,14 +870,17 @@
                                                 top:event.clientY,
                                             },
                                             end: {
-                                                left: address2[0].offsetLeft ,
-                                                top:  address2[0].offsetTop-20 ,
+                                                // left: address2[0].offsetLeft ,
+                                                // top:  address2[0].offsetTop-20 ,
+                                                left:1010,
+                                                top:0,
                                                 width: 0 ,
                                                 height: 0
                                             },
                                             onEnd: function () {
                                                 $("#msg").show().animate({width:'250px'},200).fadeOut(1000);
                                                 this.destory();
+                                                build("green","加购成功！",productId);
                                             }
                                         })
                                     }
@@ -916,78 +986,6 @@
         })();
     });
 
-    // 限时特价轮播
-    $(function() {
-        //限时特价的点击轮播
-        (function(){
-            var LIWIDTH=240,moved=0,interval=1000,timer=null;//LIWIDTH->li的长度
-            var html="";
-            $ul=$(".sp-slid>ul");
-            $li=$(".sp-slid>ul>li");
-            var length=$li.length;
-            //console.log(length);
-            $ul.css("width",(length+3)*LIWIDTH);//ul的长度
-            //左右键
-            $(".sp-slid>a").on("click",".fl,.fr",function(e){
-                e.preventDefault();
-                $a=$(this);
-                if($a.is(".fr")){//右键
-                    if(!this.className.endsWith("disabled")){//判断这个div 中最后一个class是否有 disabled
-                        moved++;
-                        console.log(moved);
-                        $(".fl").removeClass("disabled");
-                        $ul.animate({
-                            left:-LIWIDTH*moved*3
-                        },interval);
-                        if(moved*3===length-3){
-                            $(".fr").addClass("disabled");
-                        }
-
-                    }
-                }else{//左键
-                    if(!this.className.endsWith("disabled")){
-                        moved--;
-                        //console.log(moved);
-                        $(".fr").removeClass("disabled");
-                        if(moved<0){
-                            moved=0;
-                            $a.addClass("disabled");
-                        }else{
-                            $ul.animate({
-                                left:-LIWIDTH*moved*3
-                            },interval);
-                        }
-                    }
-                }
-            });
-
-            // 自动轮播
-            function lunbo(){
-                timer=setInterval(function(){
-                    moved++;
-                    $ul.animate({
-                        left:-LIWIDTH*moved*3
-                    },interval,function(){
-                        if(moved*3>=length){
-                            moved=0;
-                            $ul.css("left",0);
-                        }
-                    })
-                },2000);
-            }
-            lunbo();
-
-            $(".sp-slid").hover(
-                function(){
-                    clearInterval(timer);
-                    timer=null;
-                },
-                function(){
-                    lunbo();
-                }
-            )
-        })();
-    })
 
     // 预售轮播
     $(function(){
@@ -995,8 +993,11 @@
             i=0;
             aImgli = $('.r-img li');
             len = aImgli.length;
+            var presale = $('.sp-right');
+            len>0 ? presale.show() : presale.hide();
+
             for(j = 0;j<aImgli.length;j++){
-                $(".r-title ul").append('<li> </li>');
+                $(".r-title ul").append('<li style="cursor:pointer;"> </li>');
             }
             $(".r-title ul li").first().addClass('active');
 
@@ -1019,33 +1020,33 @@
             },4000);
 
             //鼠标移入，暂停自动播放，移出，开始自动播放
-            // $('.lunb').hover(function(){
-            //     clearInterval(timer);
-            // },function(){
-            //     timer=setInterval(function(){
-            //         i++;
-            //         if (i===len) {
-            //             i = 0;
-            //             $('.lunbo-img').css({left:0});
-            //         }
-            //         //进行下一张图片
-            //         $('.lunbo-img').stop().animate({left:-i*700},2000);
-            //         //圆点跟着变化
-            //         if (i===len) {
-            //             $('.list-li li').eq(0).addClass('active').siblings().removeClass('active');
-            //         }else{
-            //             $('.list-li li').eq(i).addClass('active').siblings().removeClass('active');
-            //         }
-            //     },6000)
-            // });
-            //
-            // $('.list-li li').mouseover(function(){
-            //     let _index=$(this).index();
-            //     //维持i变量控制的对应关系不变
-            //     i = _index;
-            //     $('.lunbo-img').stop().animate({left:-_index*700},300);
-            //     $('.list-li li').eq(_index).addClass('active').siblings().removeClass('active');
-            // });
+            $('.r-img').hover(function(){
+                clearInterval(timer);
+            },function(){
+                timer=setInterval(function(){
+                    i++;
+                    if (i===len) {
+                        i = 0;
+                        $('.r-img').css({left:0});
+                    }
+                    //进行下一张图片
+                    $('.r-img').stop().animate({left:-i*240},2000);
+                    //圆点跟着变化
+                    if (i===len) {
+                        $('.r-title ul li').eq(0).addClass('active').siblings().removeClass('active');
+                    }else{
+                        $('.r-title ul li').eq(i).addClass('active').siblings().removeClass('active');
+                    }
+                },6000)
+            });
+
+            $('.r-title ul li').mouseover(function(){
+                let _index=$(this).index();
+                //维持i变量控制的对应关系不变
+                i = _index;
+                $('.r-img').stop().animate({left:-_index*240},300);
+                $('.r-title ul li').eq(_index).addClass('active').siblings().removeClass('active');
+            });
 
         })();
     });
@@ -1083,9 +1084,10 @@
         });
     }
 
+    var quantityTimer;
     $("#J_CartArea")
         .on("click", ".q-add", function(){   //添加商品数量
-            // clearTimeout(quantityTimer);
+            clearTimeout(quantityTimer);
             var _input = $(this).siblings(".q-input");
             // var _hidden = $(this).siblings("input[type=hidden]");
             var total = parseInt($(this).parent().parent().parent().parent().next().find("strong").text());
@@ -1096,10 +1098,12 @@
             _input.val(q);
             total+=price;
             $('.cart-hide ul').next().find("strong").text(total);
-            quantityHandler(pid, q);
+            quantityTimer = setTimeout(function(){
+                quantityHandler(pid, q);
+            }, 500);
         })
         .on("click", ".q-minus", function(){//减少商品数量
-            // clearTimeout(quantityTimer);
+            clearTimeout(quantityTimer);
             var _input = $(this).siblings(".q-input");
             // var _hidden = $(this).siblings("input[type=hidden]");
             var q = _input.val();
@@ -1112,7 +1116,7 @@
             _input.val(q);
             // console.log(min)
             if(q < min){
-                // build("red","进货量不能小于批发量！","pressaleError");
+                build("red","进货量不能小于批发量！","pressaleError");
                 q=min;
                 _input.val(q);
             }
@@ -1132,7 +1136,9 @@
                         if(!res.error){
                             q = q < min ? min : q;
                             _input.val(q);
-                            quantityHandler(pid, q);
+                            quantityTimer = setTimeout(function(){
+                                quantityHandler(pid, q);
+                            }, 500);
                         }
                     }
                 })
@@ -1199,22 +1205,106 @@
         });
     }
 
+    // 限时特价&&新品推荐轮播
     $(function() {
-        var $button1 = $(".focus_within").find(".button_first")
-        var $button2 = $(".focus_within").find(".button_second")
+        var $button1 = $(".focus_within").find(".button_first");
+        var $button2 = $(".focus_within").find(".button_second");
+        var $recommend = $('#sp_recommend');
+        var $special = $('#sp_special');
+        var reList = $recommend.find('li').length;
+        var spList = $special.find('li').length;
+
+        if(spList && reList) {
+            $recommend.hide() && $('.sp_left_recommend').hide()
+        }else if(spList && !reList) {
+            $recommend.hide() && $('.sp_left_recommend').hide() && $button2.hide()
+        }else if(!spList) {
+            $special.hide() && $('.sp_left_special').hide() && $button1.hide() && $button2.addClass('focus-within')
+        }
+
+
         $button2.click(function() {
-            $(this).addClass('focus-within')
-            $button1.removeClass('focus-within')
-            $('.sp_left_discount').hide()
-            $('.sp_left_recommend').show()
-        })
+            $(this).addClass('focus-within');
+            $button1.removeClass('focus-within');
+            $('.sp_left_special, #sp_special').hide();
+            $('.sp_left_recommend, #sp_recommend').show();
+        });
         $button1.click(function() {
-            $(this).addClass('focus-within')
-            $button2.removeClass('focus-within')
-            $('.sp_left_discount').show()
-            $('.sp_left_recommend').hide()
+            $(this).addClass('focus-within');
+            $button2.removeClass('focus-within');
+            $('.sp_left_special, #sp_special').show();
+            $('.sp_left_recommend, #sp_recommend').hide()
         })
+
+      // 手动点击start
+            var LIWIDTH=240,moved=0,interval=1000,timer=null;//LIWIDTH->li的长度
+            $ul=$(".sp_slid_recommend");
+            $li=$(".sp_slid_recommend").find('li');
+            var length=$li.length;
+
+            $ul.css("width",length*LIWIDTH);//ul的长度
+            //左右键
+            $("#sp_recommend>a").on("click",".fl,.fr",function(e){
+                e.preventDefault();
+                $a = $(this);
+                if($a.is(".fr")){//右键
+                        moved++;
+                        $ul.animate({
+                            left:-LIWIDTH*moved
+                        },interval);
+                        console.log(moved,length)
+                        if(moved === length-3){
+                            alert(1)
+                        }
+
+
+                }else{//左键
+                    if(!this.className.endsWith("disabled")){
+                        moved--;
+                        //console.log(moved);
+                        $(".fr").removeClass("disabled");
+                        if(moved<0){
+                            moved=0;
+                            $a.addClass("disabled");
+                        }else{
+                            $ul.animate({
+                                left:-LIWIDTH*moved
+                            },interval);
+                        }
+                    }
+                }
+                return false;
+            });
+
+            //自动轮播
+            // function lunbo(){
+            //     timer=setInterval(function(){
+            //         moved++;
+            //         $ul.animate({
+            //             left:-LIWIDTH*moved*3
+            //         },interval,function(){
+            //             if(moved*3>=length){
+            //                 moved=0;
+            //                 $ul.css("left",0);
+            //             }
+            //         })
+            //     },2000);
+            // }
+            // lunbo();//调用
+            // $(".sp-slid").hover(
+            //     function(){
+            //         clearInterval(timer);
+            //         timer=null;
+            //     },
+            //     function(){
+            //         lunbo();
+            //     }
+            // )
+        // 手动end
+
     })
+
+
 </script>
 </body>
 </html>
