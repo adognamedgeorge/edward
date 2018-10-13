@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:50px;height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>邀请赚佣金</title>
+    <script src=" https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        *{ font-family: "PingFang SC"; color: rgba(77,77,77,1);}
+        header {
+            background-color: #ffffff;
+            font-size: .36rem;
+            text-align: center;
+            line-height: .88rem;
+        }
+        #register_main {
+            padding-bottom: 1rem;
+            min-height: 100%;
+            background: linear-gradient(180deg,rgba(247,116,90,1) 0%,rgba(242,97,89,1) 100%);
+            background: -webkit-linear-gradient(180deg,rgba(247,116,90,1) 0%,rgba(242,97,89,1) 100%);
+        }
+        .register_bg {
+            width: 100%;
+        }
+        .register_img { width: 100%; }
+        .register_signup {
+            background: #ffffff;
+            margin: -12% auto 0 auto;
+            border-radius: .2rem;
+            padding: 8% 0 5.3% 0;
+            width: 89%;
+            height: 5.04rem;
+            position: relative;
+            z-index: 1;
+        }
+        .invite_mine {
+            background: #ffffff;
+            border-radius: .2rem;
+            height: 4.12rem;
+            width: 89%;
+            margin: .5rem auto 0;
+        }
+        .signup_h3, .invite_h3 {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 2.67%;
+            color: rgba(77,77,77,1);
+            font-size: .36rem;
+            font-weight: bold;
+        }
+        .invite_h3 {
+            padding-top: .5rem;
+        }
+        .signup_p {
+            font-size: .28rem;
+            line-height: .48rem;
+            text-align:center;
+            margin:0 auto .5rem;
+            max-width: 83%;
+            color: rgba(153,153,153,1);
+            font-weight: normal;
+            }
+        .signup_form > div {
+            width: 91%;
+            height: 1.2rem;
+            margin: 0 auto 5.33% auto;
+
+        }
+        .signup_submit {
+            border: 0;
+            font-size: .36rem;
+            color: rgba(255,255,255,1);
+            width: 88%;
+            border-radius: .1rem;
+            line-height: .88rem;
+            background: linear-gradient(240deg,rgba(244,75,75,1) 0%,rgba(245,93,76,1) 100%);
+            background: -webkit-gradient(240deg,rgba(244,75,75,1) 0%, rbba(245,93,93,76,1) 100%);
+            box-shadow: 0 .08rem .16rem 0 rgba(247,69,63,0.2);
+            margin: 0 auto .5rem;
+            display: block;
+        }
+        h2 {
+            text-align: center;
+            background:linear-gradient(270deg, rgba(244,75,75,1) 0%, rgba(245,93,76,1) 100%);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        h2 a {
+            color: rgba(249,90,71,1);
+            font-size: .32rem;
+        }
+        h2, h2 a {
+            float: left;
+            width: 100%;
+        }
+        table {
+            table-layout: fixed;
+            width: 100%;
+            padding: 0 .25rem .5rem;
+            overflow: hidden;
+        }
+        tr {
+            display: inline-block;
+            width: 100%;
+            height: .68rem;
+            line-height: .68rem;
+        }
+        thead {
+            font-size: .32rem;
+            color: rgba(71,71,71,1);
+        }
+        thead tr th:first-child, tbody tr td:first-child {
+            float: left;
+        }
+        thead tr th:nth-child(2), tbody tr td:nth-child(2) {
+            float: right;
+        }
+        tbody {
+            font-size: .28rem;
+            color: rgba(153,153,153,1);
+            overflow: auto;
+            display: inline-block;
+            width: 100%;
+            max-height: 2.04rem;
+            float: left;
+        }
+
+        body { height: 100%; width: 100%; }
+        body, h1, h2, h3, h4, p {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            border: none;
+            vertical-align: top;
+        }
+        input, textarea { outline: none; }
+        textarea {
+            resize: none;
+            overflow: auto;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        邀请赚佣金
+    </header>
+    <div id="register_main">
+        <!--背景-->
+        <div class="register_bg">
+            <img class="register_img" src="images_share.png"/>
+        </div>
+        <!--优势-->
+        <div class="register_signup">
+            <h3 class="signup_h3">活动规则</h3>
+            <p class="signup_p">
+                每邀请1个好友注册，完成订单，可获得相应佣金好友多买你多得，单单有奖励，佣金赚不停。另外分享商品最高可获得50%佣金奖励，轻松赚钱
+            </p>
+            <input class="signup_submit" type="submit" value="立即邀请好友加入"/>
+            <h2><a href="">批发用户专项</a></h2>
+        </div>
+
+        <div class="invite_mine">
+            <h3 class="invite_h3">我的推广</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>推广时间</th>
+                        <th>佣金</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2018-10-13 10:50</td>
+                        <td>￥ 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>2018-10-13 10:50</td>
+                        <td>￥ 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>2018-10-13 10:50</td>
+                        <td>￥ 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>2018-10-13 10:50</td>
+                        <td>￥ 2.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var ordertime = 60   //设置再次发送验证码等待时间
+            var timeleft = ordertime
+            var btn = $(".signup_yzm")
+            var phone = $(".phone")
+            var reg = /^1[0-9]{10}$/
+
+
+            phone.keyup(function(){
+                if (reg.test(phone.val())){
+                    btn.removeAttr("disabled")  //当号码符合规则后发送验证码按钮可点击
+                }
+                else{
+                    btn.attr("disabled",true)
+                }
+            })
+
+            //计时函数
+            function timeCount(){
+                timeleft -= 1;
+                if (timeleft > 0){
+                    btn.val(timeleft + " 秒后重发");
+                    setTimeout(timeCount,1000)
+                }
+                else {
+                    btn.val("重新发送");
+                    timeleft=ordertime;  //重置等待时间
+                    btn.removeAttr("disabled");
+                }
+            }
+            //注册成功函数
+            var show = $('.signup-show');
+            var hidden = $('.signup_hidden');
+            var submit = $('.signup_submit');
+            function login(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden')
+            }
+            function login2(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden');
+                $('.signup_login2').html("会员您好");
+                $('.signup_hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP接单吧')
+                $('.download').html('立马下载APP接单赚钱')
+            }
+            function login3(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden');
+                $('.signup_login2').html("会员您好");
+                $('.signup_hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP完善资料吧')
+            }
+
+            //获取parentID
+            function GetUrlParam(name)
+            {
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!= null)
+                    return unescape(r[2]);
+                    return null;
+            }
+            var parentId = GetUrlParam("parentId")
+
+            //事件处理函数
+            btn.on("click",function(){
+                $(this).attr("disabled",true); //防止多次点击
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url:"/passport/getSmsVerifyCode",
+                        data:{
+                            mobile:phone.val()
+                        }
+                    });
+                    timeCount(this);
+            });
+
+
+
+            //验证码注册
+            submit.on('click',function(){
+                var vcode = $('.code');
+                if(phone.val() == null || phone.val() == ''){
+                    alert('请输入手机号码')
+                }else if(vcode.val() == null || vcode.val() == ''){
+                    alert('请输入验证码');
+                }else {
+                    $.ajax({
+                        type: "post",
+                        url:"/passport/distributorLogin",
+                        data:{
+                            mobile:phone.val(),
+                            code:vcode.val(),
+                            parentId:parentId
+                        },
+                        dataType:"json",
+                        success: function (res){
+                            if(res.status === 'success') {
+                                if(res.data.type) {
+                                    switch(res.data.type)
+                                    {
+                                        case 2:
+                                            login();
+                                            break;
+                                        case 1:
+                                            login3();
+                                            break;
+                                    }
+                                }else {
+                                    switch(res.data.code)
+                                    {
+                                        case 1:
+                                        case 2:
+                                        case 4:
+                                            login2();
+                                            break;
+                                    }
+                                }
+                            }else {
+                                alert(res.info)
+                            }
+                            console.log(res);
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            });
+
+
+        })
+    </script>
+</body>
+</html>

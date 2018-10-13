@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:50px;height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>注册云蚂蚁</title>
+    <script src=" https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        *{ font-family: "PingFang SC"; color: rgba(77,77,77,1);}
+        header {
+            background-color: #ffffff;
+            font-size: .36rem;
+            text-align: center;
+            line-height: .88rem;
+        }
+        #register_main {
+            padding-bottom: 1rem;
+            min-height: 100%;
+            background: linear-gradient(180deg,rgba(247,116,90,1) 0%,rgba(242,97,89,1) 100%);
+            background: -webkit-linear-gradient(180deg,rgba(247,116,90,1) 0%,rgba(242,97,89,1) 100%);
+        }
+        .register_bg {
+            width: 100%;
+        }
+        .register_img { width: 100%; }
+        .register_signup {
+            background: #ffffff;
+            margin: -12% auto 0 auto;
+            border-radius: .2rem;
+            padding: 8% 0 5.3% 0;
+            width: 89%;
+            position: relative;
+            z-index: 1;
+        }
+        .signup_form {
+            font-size: .28rem;
+            color: rgba(204,204,204,1);
+        }
+        .signup_form > div {
+            width: 91%;
+            height: 1.2rem;
+            margin: 0 auto 5.33%;
+        }
+        .signup_input, .join_content {
+            width: inherit;
+            margin: 0 auto;
+            border: transparent;
+            font-size: .36rem;
+            line-height: .8rem;
+        }
+        .signup_input {
+            display: block;
+            background-color: rgba(247,247,247,1);
+            border-radius: 0.04rem;
+        }
+        .signup_yzm {
+            position: absolute;
+            right: 4.5%;
+            top: 0;
+            border: .02rem solid #F55D4C;
+            border-radius: .02rem;
+            height: .82rem;
+            color: red;
+            background-color: #ffffff;
+        }
+        .signup_submit {
+            border: 0;
+            font-size: .36rem;
+            color: rgba(255,255,255,1);
+            width: 88%;
+            border-radius: .44rem;
+            line-height: .88rem;
+            background: linear-gradient(90deg,rgba(235,70,98,1),rgba(242,97,97,1));
+            box-shadow: 0 .1rem .2rem 0 rgba(207,28,53,0.3),0 .1rem 0 0 rgba(255,255,255,0.1);
+            margin: 0 auto;
+            display: block;
+        }
+        .join_p {
+            color: rgba(77,77,77,1);
+            font-size: .32rem;
+            height: .96rem;
+            lin-height: .48rem;
+            text-align: center;
+            width: 100%;
+            display: inline-block;
+        }
+        .join_box {
+            position: relative;
+        }
+        .join_box input:first-child {
+            width: 68%;
+            display: inline-block;
+        }
+
+        body { height: 100%; width: 100%; }
+        body, h1, h2, h3, h4, p {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            border: none;
+            vertical-align: top;
+        }
+        input, textarea { outline: none; }
+        textarea {
+            resize: none;
+            overflow: auto;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        邀请赚佣金
+    </header>
+    <div id="register_main">
+        <!--背景-->
+        <div class="register_bg">
+            <img class="register_img" src="image_login.png"/>
+        </div>
+        <!--优势-->
+        <div class="register_signup">
+            <p class="join_p">自买省钱，分享赚钱，<br> 全员团购，惠礼无限。</p>
+            <div class="signup-show">
+                <div class="signup_form">
+                    <div>
+                        <input class="signup_input phone" type="number" value="" placeholder="请输入你的手机号"/>
+                    </div>
+
+                    <div class="join_box">
+                        <div class="join_content">
+                            <input class="signup_input code" type="number" value="" placeholder="请输入验证码"/>
+                            <input class="signup_yzm" type="button" value="发送验证码" disabled="disabled"/>
+                        </div>
+                    </div>
+                    <input class="signup_submit" type="submit" value="立即注册"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var ordertime = 60   //设置再次发送验证码等待时间
+            var timeleft = ordertime
+            var btn = $(".signup_yzm")
+            var phone = $(".phone")
+            var reg = /^1[0-9]{10}$/
+
+
+            phone.keyup(function(){
+                if (reg.test(phone.val())){
+                    btn.removeAttr("disabled")  //当号码符合规则后发送验证码按钮可点击
+                }
+                else{
+                    btn.attr("disabled",true)
+                }
+            })
+
+            //计时函数
+            function timeCount(){
+                timeleft -= 1;
+                if (timeleft > 0){
+                    btn.val(timeleft + " 秒后重发");
+                    setTimeout(timeCount,1000)
+                }
+                else {
+                    btn.val("重新发送");
+                    timeleft=ordertime;  //重置等待时间
+                    btn.removeAttr("disabled");
+                }
+            }
+            //注册成功函数
+            var show = $('.signup-show');
+            var hidden = $('.signup_hidden');
+            var submit = $('.signup_submit');
+            function login(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden')
+            }
+            function login2(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden');
+                $('.signup_login2').html("会员您好");
+                $('.signup_hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP接单吧')
+                $('.download').html('立马下载APP接单赚钱')
+            }
+            function login3(){
+                show.addClass('signup_hidden');
+                hidden.removeClass('signup_hidden');
+                $('.signup_login2').html("会员您好");
+                $('.signup_hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP完善资料吧')
+            }
+
+            //获取parentID
+            function GetUrlParam(name)
+            {
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!= null)
+                    return unescape(r[2]);
+                    return null;
+            }
+            var parentId = GetUrlParam("parentId")
+
+            //事件处理函数
+            btn.on("click",function(){
+                $(this).attr("disabled",true); //防止多次点击
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url:"/passport/getSmsVerifyCode",
+                        data:{
+                            mobile:phone.val()
+                        }
+                    });
+                    timeCount(this);
+            });
+
+
+
+            //验证码注册
+            submit.on('click',function(){
+                var vcode = $('.code');
+                if(phone.val() == null || phone.val() == ''){
+                    alert('请输入手机号码')
+                }else if(vcode.val() == null || vcode.val() == ''){
+                    alert('请输入验证码');
+                }else {
+                    $.ajax({
+                        type: "post",
+                        url:"/passport/distributorLogin",
+                        data:{
+                            mobile:phone.val(),
+                            code:vcode.val(),
+                            parentId:parentId
+                        },
+                        dataType:"json",
+                        success: function (res){
+                            if(res.status === 'success') {
+                                if(res.data.type) {
+                                    switch(res.data.type)
+                                    {
+                                        case 2:
+                                            login();
+                                            break;
+                                        case 1:
+                                            login3();
+                                            break;
+                                    }
+                                }else {
+                                    switch(res.data.code)
+                                    {
+                                        case 1:
+                                        case 2:
+                                        case 4:
+                                            login2();
+                                            break;
+                                    }
+                                }
+                            }else {
+                                alert(res.info)
+                            }
+                            console.log(res);
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            });
+
+
+        })
+    </script>
+</body>
+</html>

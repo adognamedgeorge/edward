@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:50px;height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>注册赚钱</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        *{font-family:PingFang-SC-Regular;color:rgba(77,77,77,1);}
+        header {
+            background-color:#ffffff;
+            font-size:.36rem;
+            text-align:center;
+            line-height:.88rem;}
+        #register-main {
+            padding-bottom:10%;
+            min-height:100%;
+            background:linear-gradient(-180deg,rgba(235,70,98,1),rgba(242,97,97,1));
+            background:-webkit-linear-gradient(-180deg,rgba(235,70,98,1),rgba(242,97,97,1));
+        }
+        .register-bg {
+            width:100%;
+        }
+        .register-img {width:100%;}
+        .register-signup {
+            background:#ffffff;
+            margin:-3% auto 0 auto;
+            border-radius:.4rem;
+            padding:5.3% 0 8% 0;
+            width:89%;
+            position:relative;
+            z-index:1;
+        }
+        .signup-h3,.signup-p {font-size:.32rem;}
+        .signup-h3 {
+            width:100%;
+            text-align:center;
+            margin-bottom:2.67%;
+            color:rgba(249,90,71,1);}
+        .signup-p {
+            line-height:.48rem;
+            text-align:center;
+            margin:0 auto;
+            }
+        .last-child {margin-top:5.3%;}
+        .sign-split {
+            margin-top:6.26%;
+            display:flex;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+        }
+        .signup-span {
+            width:.36rem;
+            height:.36rem;
+            display:inline-block;
+            border-radius:100%;}
+        .signup-hr {
+            border:none;
+            border-top:.1rem dashed #E44254;
+            display:inline-block;
+            flex:1;
+            -webkit-flex:1;
+            -ms-flex:1;
+            margin-top:.14rem;}
+        .fl {margin-left:-.18rem;background-color:#f26161;}
+        .fr {margin-right:-.18rem;background-color:#E94B5B;}
+        .signup-login,.signup-login2 {
+            margin-bottom:4%;
+            margin-top:6.26%;}
+
+        .signup-form  {
+            font-size:.28rem;
+            color:rgba(204,204,204,1);
+        }
+        .signup-form>div {
+            width:91%;
+            height:1.2rem;
+            margin:0 auto 5.33% auto;
+
+        }
+        .input-p {
+           margin:0 auto .06rem auto;
+           color:rgba(204,204,204,1);
+           width:inherit;
+        }
+        .signup-input {
+            width:inherit;
+            display:block;
+            margin:0 auto;
+            border:none;
+            border-bottom:.01rem solid rgba(153,153,153,1);
+            font-size:.36rem;
+            line-height:.8rem;}
+        .signup-yzm {
+            position:absolute;
+            right:4.5%;
+            bottom:.01rem;
+            border:.02rem solid rgba(235,94,117,1);
+            border-radius:.04rem;height:.6rem;
+            font-size:.24rem;
+            color:rgba(235,94,117,1);
+            background-color:#ffffff;
+        }
+        .signup-submit {
+            border:0;
+            font-size:.36rem;
+            color:rgba(255,255,255,1);
+            width:88%;
+            border-radius:.44rem;
+            line-height:.88rem;
+            background:linear-gradient(90deg,rgba(235,70,98,1),rgba(242,97,97,1));
+            box-shadow:0 .1rem .2rem 0 rgba(207,28,53,0.3),0 .1rem 0 0 rgba(255,255,255,0.1);
+            margin:0 auto;
+            display:block;
+        }
+        .download {
+            margin:0 auto;
+            width:88%;
+            text-align:center;
+            text-decoration:none;
+            display:block;
+            margin-top:2.67%;
+            font-size:.36rem;
+        }
+        .signup-hidden {display:none;}
+
+        body {height:100%;width:100%;}
+        body,h1,h2,h3,h4,p {
+            margin:0;
+            padding:0;}
+        img {
+            border:none;
+            vertical-align:top;}
+        input,textarea {outline:none;}
+        textarea {
+            resize:none;
+            overflow:auto;}
+
+    </style>
+</head>
+<body>
+    <header>
+        注册成为蚂蚁配送员
+    </header>
+    <div id="register-main">
+        <!--背景-->
+        <div class="register-bg">
+            <img class="register-img" src="h5_signup.png"/>
+        </div>
+        <!--优势-->
+        <div class="register-signup">
+            <h3 class="signup-h3">优势一</h3>
+            <p class="signup-p">时间自由，没有约束，想赚<br>零花钱，点击开工，抢单完成配送即可</p>
+            <h3 class="signup-h3 last-child">优势二</h3>
+            <p class="signup-p">收入丰厚，除商家配送费，<br>还有客户的跑腿费，总部的补贴费</p>
+            <!--分割线-->
+            <div class="sign-split">
+                <span class="signup-span fl"> </span>
+                <span class="signup-hr"> </span>
+                <span class="signup-span fr"> </span>
+            </div>
+            <!--注册-->
+            <div class="signup-show">
+                <h3 class="signup-h3 signup-login">注册账号</h3>
+                <div class="signup-form">
+                    <div>
+                        <p class="input-p">手机号</p>
+                        <input class="signup-input phone" type="number" value=""/>
+                    </div>
+
+                    <div style="position:relative">
+                        <p class="input-p">验证码</p>
+                        <input class="signup-input code" type="number" value="" placeholder=""/>
+                        <input class="signup-yzm" type="button" value="获取验证码" disabled="disabled"/>
+                    </div>
+                    <input class="signup-submit" type="submit" value="立即注册"/>
+                </div>
+            </div>
+            <!--注册成功-->
+            <div class="signup-hidden">
+                <h3 class="signup-h3 signup-login2">注册成功</h3>
+                <p class="signup-p signup-hidden-p">恭喜您已注册成功<br>请前去下载蚂蚁配送APP完善资料吧</p>
+                <a class="signup-submit download" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.yunmayi.meet.order" target="_blank">立马下载APP完善资料</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var ordertime = 60   //设置再次发送验证码等待时间
+            var timeleft = ordertime
+            var btn = $(".signup-yzm")
+            var phone = $(".phone")
+            var reg = /^1[0-9]{10}$/
+
+
+            phone.keyup(function(){
+                if (reg.test(phone.val())){
+                    btn.removeAttr("disabled")  //当号码符合规则后发送验证码按钮可点击
+                }
+                else{
+                    btn.attr("disabled",true)
+                }
+            })
+
+            //计时函数
+            function timeCount(){
+                timeleft -= 1;
+                if (timeleft > 0){
+                    btn.val(timeleft + " 秒后重发");
+                    setTimeout(timeCount,1000)
+                }
+                else {
+                    btn.val("重新发送");
+                    timeleft=ordertime;  //重置等待时间
+                    btn.removeAttr("disabled");
+                }
+            }
+            //注册成功函数
+            var show = $('.signup-show');
+            var hidden = $('.signup-hidden');
+            var submit = $('.signup-submit');
+            function login(){
+                show.addClass('signup-hidden');
+                hidden.removeClass('signup-hidden')
+            }
+            function login2(){
+                show.addClass('signup-hidden');
+                hidden.removeClass('signup-hidden');
+                $('.signup-login2').html("会员您好");
+                $('.signup-hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP接单吧')
+                $('.download').html('立马下载APP接单赚钱')
+            }
+            function login3(){
+                show.addClass('signup-hidden');
+                hidden.removeClass('signup-hidden');
+                $('.signup-login2').html("会员您好");
+                $('.signup-hidden-p').html('您已是我们的会员<br>请前去下载蚂蚁配送APP完善资料吧')
+            }
+
+            //获取parentID
+            function GetUrlParam(name)
+            {
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!= null)
+                    return unescape(r[2]);
+                    return null;
+            }
+            var parentId = GetUrlParam("parentId")
+            // if(parentID !=null && parentID.toString().length>1)
+            // {
+            //     alert(GetUrlParam("parentId"));
+            // }
+
+
+            //事件处理函数
+            btn.on("click",function(){
+                $(this).attr("disabled",true); //防止多次点击
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url:"/passport/getSmsVerifyCode",
+                        data:{
+                            mobile:phone.val()
+                        }
+                        // success: function (res){
+                        //     console.log(res)
+                        // },
+                        // error: function (error) {
+                        //     console.log(error)
+                        // }
+                    });
+                    timeCount(this);
+            });
+
+
+
+            //验证码注册
+            submit.on('click',function(){
+                var vcode = $('.code');
+                if(phone.val() == null || phone.val() == ''){
+                    alert('请输入手机号码')
+                }else if(vcode.val() == null || vcode.val() == ''){
+                    alert('请输入验证码');
+                }else {
+                    $.ajax({
+                        type: "post",
+                        url:"/passport/distributorLogin",
+                        data:{
+                            mobile:phone.val(),
+                            code:vcode.val(),
+                            parentId:parentId
+                        },
+                        dataType:"json",
+                        success: function (res){
+                            if(res.status === 'success') {
+                                if(res.data.type) {
+                                    switch(res.data.type)
+                                    {
+                                        case 2:
+                                            login();
+                                            break;
+                                        case 1:
+                                            login3();
+                                            break;
+                                    }
+                                }else {
+                                    switch(res.data.code)
+                                    {
+                                        case 1:
+                                        case 2:
+                                        case 4:
+                                            login2();
+                                            break;
+                                        // case 1:
+                                        //     alert(res.data.message);//用户认证中
+                                        //     login2();
+                                        //     break;
+                                        // case 2:
+                                        //     alert(res.data.message);//认证不通过
+                                        //     login2();
+                                        //     break;
+                                        // case 4:
+                                        //     alert('您已是我们的会员');//登录成功
+                                        //     login2();
+                                        //     break;
+                                        // case 5:
+                                        //     alert(res.data.message);//用户已删除
+                                        //     login2();
+                                        //     break;
+                                    }
+                                }
+                            }else {
+                                alert(res.info)
+                            }
+                            console.log(res);
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            });
+
+
+        })
+    </script>
+</body>
+</html>
