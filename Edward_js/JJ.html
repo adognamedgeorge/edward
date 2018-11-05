@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JJ-2018.11.1</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            height: 100vh;
+        }
+        .bro {
+            width: 640px;
+            height: 160px;
+            display: flex;
+            flex-wrap: wrap;
+            -webkit-animation: float 4s ease-in infinite;
+                    animation: float 4s ease-in infinite;
+            position: relative;
+        }
+        .bro_body {
+            width: 480px;
+            height: 145px;
+            background-color: #F0EFDA;
+            margin-top: 9px;
+            position: relative;
+        }
+        .egg_box {
+            position: absolute;
+            left: -75px;
+            top: -75px;
+        }
+        .bro_egg {
+            height: 150px;
+            width: 150px;
+            border-radius: 75% 65%;
+            background-color: #333333;
+        }
+        .bro_head {
+            background-color: #F0EFDA;
+            border-bottom-right-radius: 200px 100px;
+            border-bottom-left-radius: 15px;
+            border-top-right-radius: 110px;
+            border-top-left-radius: 22px;
+            width: 160px;
+            height: 160px;
+            position: relative;
+            animation: rotate
+        }
+        .bro_hole {
+            width: 10px;
+            height: 5px;
+            background-color: pink;
+            position: absolute;
+            right: 2px;
+            top: 60px;
+            border-radius: 30%;
+            transform: rotate(-10deg);
+        }
+        @keyframes float {
+            0%, 100% {
+                right: 0;
+            }
+            40% {
+                right: -500px;
+                -webkit-transform: rotate(-3deg);
+                        transform: rotate(-3deg);
+            }
+        }
+        @-webkit-keyframes float {
+            0%, 100% {
+                right: 0;
+            }
+            40% {
+                right: -500px;
+                -webkit-transform: rotate(-3deg);
+                        transform: rotate(-3deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="bro">
+        <div class="bro_body">
+            <div class="egg_box">
+                <div class="bro_egg"></div>
+                <div class="bro_egg"></div>
+            </div>
+        </div>
+        <div class="bro_head">
+            <div class="bro_hole">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

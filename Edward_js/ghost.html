@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ghost 2018/10/24</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            background: #333333;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .ghost {
+            width: 160px;
+            height: 200px;
+            position: relative;
+        }
+        .ghost .body {
+            width: 160px;
+            height: 200px;
+            background-color: #F0EFDA;
+            border-top-left-radius: 80px;
+            border-top-right-radius: 20px;
+            position: relative;
+            -webkit-animation: float 4s ease infinite;
+                    animation: float 4s ease infinite;
+        }
+        .face {
+            position: absolute;
+            width: 72px;
+            height: 41px;
+            background-color: pink;
+            top: 67px;
+            left: 37px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .eye {
+            width: 20px;
+            height: 20px;
+            background-color: #272B24;
+            border-radius: 100%;
+        }
+        .eye.left {
+            margin-right: 32px;
+        }
+        .mouth {
+            width: 32px;
+            height: 16px;
+            background-color: #272b24;
+            margin-top: 6px;
+            margin-left: 20px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 16px 12px;
+            border-bottom-right-radius: 16px 10px;
+        }
+        .rosy {
+            background-color: yellow;
+            height: 8px;
+            width: 22px;
+            position: absolute;
+            top: 28px;
+            border-radius: 100%;
+        }
+        .rosy.left {
+            left: -4px;
+            -webkit-transform: rotate(-8deg);
+                    transform: rotate(-8deg);
+        }
+        .rosy.right {
+            right: -4px;
+            -webkit-transform: rotate(8deg);
+                    transform: rotate(8deg);
+        }
+        .arm {
+            width: 60px;
+            height: 40px;
+            background-color: #F0EFDA;
+            position: absolute;
+            top: 100px;
+        }
+        .arm.left {
+            left: -30px;
+            border-radius: 60% 100%;
+        }
+        .arm.right {
+            right: -30px;
+            border-radius: 100% 60%;
+        }
+        .footer {
+            display: flex;
+            position: absolute;
+            left: 0;
+            right: -1px;
+            top: 100%;
+        }
+        .footer div {
+            position: relative;
+            border-radius: 100%;
+            height: 28px;
+            top: -14px;
+            flex-grow: 1;
+            background-color: #F0EFDA;
+        }
+        .footer div:nth-child(2n) {
+            margin: 0 -2px;
+            top: -10px;
+            border-top: 10px solid #F0EFDA;
+            background: transparent;
+        }
+        .shadow {
+            position: absolute;
+            bottom: -100px;
+            /*left: 50%;*/
+            width: 200px;
+            height: 12px;
+            border-radius: 100%;
+            background-color: #191D18;
+        }
+        @keyframes float {
+            0%, 100% {
+                top: 0;
+            }
+            40% {
+                top: -200px;
+            }
+        }
+        @-webkit-keyframes {
+            0%, 100% {
+                top: 0;
+            }
+            40% {
+                top: -200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ghost">
+        <div class="body">
+            <div class="face">
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="mouth"></div>
+                <div class="rosy left"></div>
+                <div class="rosy right"></div>
+            </div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="footer">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+
+</body>
+</html>
